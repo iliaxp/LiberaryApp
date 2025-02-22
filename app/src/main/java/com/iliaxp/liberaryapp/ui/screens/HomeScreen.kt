@@ -37,87 +37,75 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.iliaxp.liberaryapp.ui.components.CustomBottomBar
+import com.iliaxp.liberaryapp.ui.components.CustomTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
-    var isSearching by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { 3 })
     val coroutineScope = rememberCoroutineScope()
-    var searchText by remember { mutableStateOf(TextFieldValue()) }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("BookPoint") },
-                actions = {
-                    IconButton(onClick = { isSearching = !isSearching }) {
-                        Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
-                    }
-                },
-                modifier = Modifier.padding(top = 8.dp) // فاصله از استاتوس بار
-            )
-        },
+        topBar = { CustomTopAppBar(navController) }, // استفاده از CustomTopAppBar
         bottomBar = { CustomBottomBar(navController) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues) // اعمال فاصله برای جلوگیری از همپوشانی
+                .padding(paddingValues)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .background(Color.LightGray, shape = RoundedCornerShape(12.dp))
-            ) {
-                HorizontalPager(
-                    state = pagerState,
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .background(Color.LightGray, shape = RoundedCornerShape(12.dp))
+        ) {
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                AsyncImage(
+                    model = when (page) {
+                        0 -> "https://via.placeholder.com/600x300"
+                        1 -> "https://via.placeholder.com/600x300/FF5733"
+                        else -> "https://via.placeholder.com/600x300/33FF57"
+                    },
+                    contentDescription = "Category Image",
                     modifier = Modifier.fillMaxSize()
-                ) { page ->
-                    AsyncImage(
-                        model = when (page) {
-                            0 -> "https://via.placeholder.com/600x300"  // لینک تستی
-                            1 -> "https://via.placeholder.com/600x300/FF5733"
-                            else -> "https://via.placeholder.com/600x300/33FF57"
-                        },
-                        contentDescription = "Category Image",
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // 📌 دایره‌های نشانگر اسلایدر
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                repeat(3) { index ->
-                    val color =
-                        if (pagerState.currentPage == index) Color(0xFF6851AE) else Color.Gray
-                    Box(
-                        modifier = Modifier
-                            .size(10.dp)
-                            .padding(4.dp)
-                            .background(color, shape = RoundedCornerShape(50))
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // 📌 3 دکمه آیکونی برای دسته‌بندی کتاب‌ها
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                CategoryIconButton("https://via.placeholder.com/60", "Novel")
-                CategoryIconButton("https://via.placeholder.com/60", "Science")
-                CategoryIconButton("https://via.placeholder.com/60", "History")
+                )
             }
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // نشانگر اسلایدر
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            repeat(3) { index ->
+                val color = if (pagerState.currentPage == index) Color(0xFF6851AE) else Color.Gray
+                Box(
+                    modifier = Modifier
+                        .size(10.dp)
+                        .padding(4.dp)
+                        .background(color, shape = RoundedCornerShape(50))
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // دکمه‌های دسته‌بندی
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            CategoryIconButton("https://via.placeholder.com/60", "Novel")
+            CategoryIconButton("https://via.placeholder.com/60", "Science")
+            CategoryIconButton("https://via.placeholder.com/60", "History")
+        }
+    }
     }
 }
 
