@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
@@ -19,17 +20,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun CustomBottomBar(navController: NavController) {
     val items = listOf(
         "home" to Icons.Filled.Home,
-        "categories" to Icons.AutoMirrored.Filled.List,
+        "categories" to Icons.Filled.List,
         "library" to Icons.Filled.MoreVert,
         "profile" to Icons.Filled.Person
     )
 
-    var selectedItem by remember { mutableStateOf("home") }
+    // دریافت مسیر فعلی از NavController
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
@@ -37,9 +41,8 @@ fun CustomBottomBar(navController: NavController) {
     ) {
         items.forEach { (route, icon) ->
             NavigationBarItem(
-                selected = selectedItem == route,
+                selected = currentRoute == route, // بررسی مسیر فعلی
                 onClick = {
-                    selectedItem = route
                     navController.navigate(route) {
                         popUpTo("home") { inclusive = false }
                         launchSingleTop = true
@@ -49,14 +52,14 @@ fun CustomBottomBar(navController: NavController) {
                     Icon(
                         imageVector = icon,
                         contentDescription = route,
-                        tint = if (selectedItem == route) Color(0xFF6851AE) else Color.Gray
+                        tint = if (currentRoute == route) Color(0xFF6851AE) else Color.Gray
                     )
                 },
                 label = {
                     Text(
                         text = route.replaceFirstChar { it.uppercase() },
                         fontSize = 12.sp,
-                        color = if (selectedItem == route) Color(0xFF6851AE) else Color.Gray
+                        color = if (currentRoute == route) Color(0xFF6851AE) else Color.Gray
                     )
                 }
             )
