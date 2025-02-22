@@ -1,6 +1,11 @@
 package com.iliaxp.liberaryapp.ui.screens
 
+import android.content.Intent
+import android.net.Uri
+
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,23 +35,28 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.iliaxp.liberaryapp.R
 import com.iliaxp.liberaryapp.ui.components.CustomBottomBar
 import com.iliaxp.liberaryapp.ui.components.CustomTopAppBar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
+
+
     val pagerState = rememberPagerState(pageCount = { 3 })
-    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Scaffold(
-        topBar = { CustomTopAppBar(navController) }, // استفاده از CustomTopAppBar
+        topBar = { CustomTopAppBar(navController) },
         bottomBar = { CustomBottomBar(navController) }
     ) { paddingValues ->
         Column(
@@ -54,72 +64,71 @@ fun HomeScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .background(Color.LightGray, shape = RoundedCornerShape(12.dp))
-        ) {
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.fillMaxSize()
-            ) { page ->
-                AsyncImage(
-                    model = when (page) {
-                        0 -> "https://via.placeholder.com/600x300"
-                        1 -> "https://via.placeholder.com/600x300/FF5733"
-                        else -> "https://via.placeholder.com/600x300/33FF57"
-                    },
-                    contentDescription = "Category Image",
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth() // بازگرداندن اسلایدر به حالت قبل
+                    .height(200.dp)
+                    .background(Color.LightGray, shape = RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                HorizontalPager(
+                    state = pagerState,
                     modifier = Modifier.fillMaxSize()
-                )
+                ) { page ->
+                    val url = when (page) {
+                        0 -> "https://g4a4.com/wp-content/uploads/2024/12/File-3.jpg"
+                        1 -> "https://g4a4.com/wp-content/uploads/2024/12/File-3.jpg"
+                        else -> "https://g4a4.com/wp-content/uploads/2024/12/File-3.jpg"
+                    }
+                    AsyncImage(
+                        model = url,
+                        contentDescription = "Category Image",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable {
+                                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                context.startActivity(browserIntent)
+                            }
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                repeat(3) { index ->
+                    val color = if (pagerState.currentPage == index) Color(0xFF6851AE) else Color.Gray
+                    Box(
+                        modifier = Modifier
+                            .size(14.dp)
+                            .padding(4.dp)
+                            .background(color, shape = RoundedCornerShape(50))
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                CategoryIconButton(R.drawable.fairytale, "Novel")
+                CategoryIconButton(R.drawable.science, "Science")
+                CategoryIconButton(R.drawable.history, "History")
             }
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // نشانگر اسلایدر
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            repeat(3) { index ->
-                val color = if (pagerState.currentPage == index) Color(0xFF6851AE) else Color.Gray
-                Box(
-                    modifier = Modifier
-                        .size(10.dp)
-                        .padding(4.dp)
-                        .background(color, shape = RoundedCornerShape(50))
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // دکمه‌های دسته‌بندی
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            CategoryIconButton("https://via.placeholder.com/60", "Novel")
-            CategoryIconButton("https://via.placeholder.com/60", "Science")
-            CategoryIconButton("https://via.placeholder.com/60", "History")
-        }
-    }
     }
 }
 
-
 @Composable
-fun CategoryIconButton(imageUrl: String, label: String) {
+fun CategoryIconButton(drawableId: Int, label: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         IconButton(onClick = { /* اقدام روی کلیک */ }) {
-            AsyncImage(
-                model = imageUrl,
+            Image(
+                painter = painterResource(id = drawableId),
                 contentDescription = label,
                 modifier = Modifier
                     .size(60.dp)
-                    .background(Color(0xFFF5F5F5), shape = RoundedCornerShape(12.dp))
                     .padding(8.dp)
             )
         }

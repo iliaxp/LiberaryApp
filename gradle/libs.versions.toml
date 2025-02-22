@@ -13,6 +13,7 @@ navigationCompose = "2.8.6"
 coil = "2.4.0"
 navigationRuntimeAndroid = "2.9.0-alpha05"
 navigationRuntimeKtx = "2.8.6"
+browser = "1.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navig
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 google-accompanist = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "google-accompanist" }
 google-accompanist-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "google-accompanist" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

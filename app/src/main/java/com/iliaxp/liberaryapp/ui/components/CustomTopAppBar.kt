@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -62,24 +63,22 @@ fun SearchBar(searchQuery: String, onSearchQueryChanged: (String) -> Unit, onSea
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
+            .offset(y = 20.dp) // فیلد جستجو را پایین‌تر می‌آورد
     ) {
         TextField(
             value = searchQuery,
             onValueChange = onSearchQueryChanged,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White, shape = RoundedCornerShape(16.dp))
-                .padding(16.dp),
-        placeholder = { Text(text = "Search...", color = Color.Gray) },
-        leadingIcon = {
-            Icon(Icons.Default.Search, contentDescription = "Search Icon", tint = Color.Gray)
-        },
-        trailingIcon = {
-            IconButton(onClick = onSearchClose) {
-                Icon(Icons.Default.Close, contentDescription = "Close Search", tint = Color.Gray)
-            }
-        },
-        singleLine = true
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text(text = "Search...", color = Color.Gray) },
+            leadingIcon = {
+                Icon(Icons.Default.Search, contentDescription = "Search Icon", tint = Color.Gray)
+            },
+            trailingIcon = {
+                IconButton(onClick = onSearchClose) {
+                    Icon(Icons.Default.Close, contentDescription = "Close Search", tint = Color.Gray)
+                }
+            },
+            singleLine = true
         )
     }
 }
