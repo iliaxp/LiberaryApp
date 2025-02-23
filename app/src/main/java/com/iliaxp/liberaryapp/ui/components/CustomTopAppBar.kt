@@ -63,7 +63,7 @@ fun SearchBar(searchQuery: String, onSearchQueryChanged: (String) -> Unit, onSea
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .offset(y = 20.dp) // فیلد جستجو را پایین‌تر می‌آورد
+            .offset(y = 60.dp) // فیلد جستجو را پایین‌تر می‌آورد
     ) {
         TextField(
             value = searchQuery,

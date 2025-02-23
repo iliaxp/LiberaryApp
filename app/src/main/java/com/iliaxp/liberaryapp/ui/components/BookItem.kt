@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.iliaxp.liberaryapp.models.Book
 
 @Composable
@@ -29,8 +30,8 @@ fun BookItem(book: Book) {
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = book.imageRes),
+            AsyncImage(
+                model = book.imageUrl, // استفاده از لینک تصویر
                 contentDescription = book.title,
                 modifier = Modifier.size(80.dp)
             )

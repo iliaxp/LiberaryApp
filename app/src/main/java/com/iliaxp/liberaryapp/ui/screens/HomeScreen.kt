@@ -31,16 +31,16 @@ import com.iliaxp.liberaryapp.ui.components.CustomTopAppBar
 @Composable
 fun HomeScreen(navController: NavController) {
     val books = listOf(
-        Book("The Alchemist", "Paulo Coelho", "$15", R.drawable.ic_book),
-        Book("1984", "George Orwell", "$12", R.drawable.ic_book),
-        Book("To Kill a Mockingbird", "Harper Lee", "$18", R.drawable.ic_book),
-        Book("The Great Gatsby", "F. Scott Fitzgerald", "$10", R.drawable.ic_book),
-        Book("Moby Dick", "Herman Melville", "$20", R.drawable.ic_book),
-        Book("War and Peace", "Leo Tolstoy", "$25", R.drawable.ic_book),
-        Book("Pride and Prejudice", "Jane Austen", "$14", R.drawable.ic_book),
-        Book("The Catcher in the Rye", "J.D. Salinger", "$17", R.drawable.ic_book),
-        Book("Ulysses", "James Joyce", "$22", R.drawable.ic_book),
-        Book("Crime and Punishment", "Fyodor Dostoevsky", "$19", R.drawable.ic_book)
+        Book("The Alchemist", "Paulo Coelho", "$15", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
+        Book("1984", "George Orwell", "$12", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
+        Book("To Kill a Mockingbird", "Harper Lee", "$18", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
+        Book("The Great Gatsby", "F. Scott Fitzgerald", "$10", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
+        Book("Moby Dick", "Herman Melville", "$20", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
+        Book("War and Peace", "Leo Tolstoy", "$25", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
+        Book("Pride and Prejudice", "Jane Austen", "$14", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
+        Book("The Catcher in the Rye", "J.D. Salinger", "$17", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
+        Book("Ulysses", "James Joyce", "$22", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
+        Book("Crime and Punishment", "Fyodor Dostoevsky", "$19", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg")
     )
 
     val pagerState = rememberPagerState(pageCount = { 3 })
@@ -50,70 +50,69 @@ fun HomeScreen(navController: NavController) {
         topBar = { CustomTopAppBar(navController) },
         bottomBar = { CustomBottomBar(navController) }
     ) { paddingValues ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .background(Color.LightGray, shape = RoundedCornerShape(12.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                HorizontalPager(
-                    state = pagerState,
-                    modifier = Modifier.fillMaxSize()
-                ) { page ->
-                    val url = when (page) {
-                        0 -> "https://g4a4.com/wp-content/uploads/2024/12/File-3.jpg"
-                        1 -> "https://g4a4.com/wp-content/uploads/2024/12/File-3.jpg"
-                        else -> "https://g4a4.com/wp-content/uploads/2024/12/File-3.jpg"
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(horizontal = 20.dp) // اضافه کردن padding به چپ و راست
+                        .background(Color.LightGray, shape = RoundedCornerShape(12.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    HorizontalPager(
+                        state = pagerState,
+                        modifier = Modifier.fillMaxSize()
+                    ) { page ->
+                        val url = when (page) {
+                            0 -> "https://g4a4.com/wp-content/uploads/2024/12/File-3.jpg"
+                            1 -> "https://g4a4.com/wp-content/uploads/2024/12/File-3.jpg"
+                            else -> "https://g4a4.com/wp-content/uploads/2024/12/File-3.jpg"
+                        }
+                        AsyncImage(
+                            model = url,
+                            contentDescription = "Category Image",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clickable {
+                                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                    context.startActivity(browserIntent)
+                                }
+                        )
                     }
-                    AsyncImage(
-                        model = url,
-                        contentDescription = "Category Image",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clickable {
-                                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                                context.startActivity(browserIntent)
-                            }
-                    )
                 }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                repeat(3) { index ->
-                    val color = if (pagerState.currentPage == index) Color(0xFF6851AE) else Color.Gray
-                    Box(
-                        modifier = Modifier
-                            .size(14.dp)
-                            .padding(4.dp)
-                            .background(color, shape = RoundedCornerShape(50))
-                    )
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    repeat(3) { index ->
+                        val color = if (pagerState.currentPage == index) Color(0xFF6851AE) else Color.Gray
+                        Box(
+                            modifier = Modifier
+                                .size(14.dp)
+                                .padding(4.dp)
+                                .background(color, shape = RoundedCornerShape(50))
+                        )
+                    }
                 }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                CategoryIconButton(R.drawable.fairytale, "Novel")
-                CategoryIconButton(R.drawable.science, "Science")
-                CategoryIconButton(R.drawable.history, "History")
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(books) { book ->
-                    BookItem(book)
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    CategoryIconButton(R.drawable.fairytale, "Novel")
+                    CategoryIconButton(R.drawable.science, "Science")
+                    CategoryIconButton(R.drawable.history, "History")
                 }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            items(books) { book ->
+                BookItem(book)
             }
         }
     }
