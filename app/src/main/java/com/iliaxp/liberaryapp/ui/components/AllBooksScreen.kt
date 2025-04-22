@@ -1,16 +1,22 @@
 package com.iliaxp.liberaryapp.ui.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.iliaxp.liberaryapp.models.Book
 
+@SuppressLint("SuspiciousIndentation", "UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AllBooksScreen(navController: NavController) {
+
     val books = listOf(
         Book("The Alchemist", "Paulo Coelho", "$15", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
         Book("1984", "George Orwell", "$12", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg"),
@@ -24,15 +30,16 @@ fun AllBooksScreen(navController: NavController) {
         Book("Crime and Punishment", "Fyodor Dostoevsky", "$19", "https://www.fadakbook.ir/storage/uploads/product/lg_b8e94_ketab_tekehayi_az_yek_kol_mons.jpg")
     )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+    Scaffold (
+        topBar = { CustomTopAppBar(navController) },
+        bottomBar = { CustomBottomBar(navController) }
+    ) { innerPadding ->
+        LazyColumn(
             contentPadding = PaddingValues(16.dp)
         ) {
             items(books) { book ->
                 BookItem(book)
             }
         }
-
-
-
+    }
 }
