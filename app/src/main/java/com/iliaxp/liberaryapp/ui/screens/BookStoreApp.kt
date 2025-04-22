@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.iliaxp.liberaryapp.ui.components.AllBooksScreen
 
 @Composable
 fun BookStoreApp() {
@@ -20,5 +21,10 @@ fun BookStoreApp() {
         composable("library") { LibraryScreen(navController) }
         composable("profile") { ProfileScreen(navController) }
         composable("about") { AboutScreen(navController) }
+        composable("allBooks") { AllBooksScreen(navController) }
+        composable("cart") { CartScreen(navController) }
+        composable("novelBooks") { NovelBooksScreen(navController) }
+        composable("scienceBooks") { ScienceBooksScreen(navController) }
+        composable("historyBooks") { HistoryBooksScreen(navController) }
     }
 }

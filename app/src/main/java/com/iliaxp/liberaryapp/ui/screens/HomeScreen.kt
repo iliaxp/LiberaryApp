@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import com.iliaxp.liberaryapp.R
 import com.iliaxp.liberaryapp.models.Book
@@ -56,6 +57,7 @@ fun HomeScreen(navController: NavController) {
                 .padding(paddingValues)
         ) {
             item {
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -105,9 +107,16 @@ fun HomeScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    CategoryIconButton(R.drawable.fairytale, "Novel")
-                    CategoryIconButton(R.drawable.science, "Science")
-                    CategoryIconButton(R.drawable.history, "History")
+                    CategoryIconButton(R.drawable.fairytale, "Novel", onClick = {navController.navigate("novelBooks") })
+                    CategoryIconButton(R.drawable.science, "Science", onClick = {navController.navigate("scienceBooks") })
+                    CategoryIconButton(R.drawable.history, "History", onClick = {navController.navigate("historyBooks") })
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = { navController.navigate("allBooks") },
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                ) {
+                    Text("See More")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -119,17 +128,33 @@ fun HomeScreen(navController: NavController) {
 }
 
 @Composable
-fun CategoryIconButton(drawableId: Int, label: String) {
+fun CategoryIconButton(drawableId: Int, label: String, onClick: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        IconButton(onClick = { /* اقدام روی کلیک */ }) {
+        IconButton(onClick = onClick) {
             Image(
                 painter = painterResource(id = drawableId),
                 contentDescription = label,
-                modifier = Modifier
-                    .size(60.dp)
-                    .padding(8.dp)
+                modifier = Modifier.size(60.dp).padding(8.dp)
             )
         }
         Text(text = label, fontSize = 14.sp, color = Color.Black)
     }
+}
+
+@Composable
+fun AsyncImageWithLoading(model: String, contentDescription: String, modifier: Modifier = Modifier) {
+    val imageLoader = ImageLoader.Builder(LocalContext.current)
+        .crossfade(true)
+        .build()
+
+    AsyncImage(
+        model = model,
+        contentDescription = contentDescription,
+        modifier = modifier,
+        imageLoader = imageLoader,
+//        placeholder = painterResource(R.drawable.ic_loading), // آیکون لودینگ
+//        error = painterResource(R.drawable.ic_error), // آیکون خطا
+        onLoading = { /* نمایش ProgressBar */ },
+        onSuccess = { /* مخفی کردن ProgressBar */ }
+    )
 }

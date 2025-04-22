@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,14 +45,16 @@ fun CustomTopAppBar(navController: NavController) {
     TopAppBar(
         title = { Text("BookPoint") },
         actions = {
+            IconButton(onClick = { navController.navigate("cart") }) {
+                Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "Cart")
+            }
             IconButton(onClick = { isSearching = !isSearching }) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
             }
         },
-        modifier = Modifier.padding(top = 8.dp) // فاصله از استاتوس بار
+        modifier = Modifier.padding(top = 8.dp)
     )
 
-    // اگر جستجو فعال است، نوار جستجو را نمایش دهید
     if (isSearching) {
         SearchBar(searchQuery = searchText, onSearchQueryChanged = { searchText = it }, onSearchClose = { isSearching = false })
     }

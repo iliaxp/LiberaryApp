@@ -27,8 +27,7 @@ fun CustomBottomBar(navController: NavController) {
     val items = listOf(
         "home" to Icons.Filled.Home,
         "categories" to Icons.Filled.List,
-        "library" to Icons.Filled.MoreVert,
-        "profile" to Icons.Filled.Person
+        "library" to Icons.Filled.MoreVert
     )
 
     // دریافت مسیر فعلی از NavController

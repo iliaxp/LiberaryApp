@@ -12,10 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.iliaxp.liberaryapp.models.Book
+import com.iliaxp.liberaryapp.ui.screens.AsyncImageWithLoading
 
 @Composable
 fun BookItem(book: Book) {
@@ -24,26 +26,22 @@ fun BookItem(book: Book) {
             .fillMaxWidth()
             .padding(16.dp),
         shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.elevatedCardElevation(6.dp)
+        elevation = CardDefaults.elevatedCardElevation(8.dp) // افزایش سایه
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = book.imageUrl, // استفاده از لینک تصویر
-                contentDescription = book.title,
-                modifier = Modifier.size(80.dp)
-            )
+            AsyncImageWithLoading(model = book.imageUrl, contentDescription = book.title, modifier = Modifier.size(80.dp))
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = book.title, fontSize = 18.sp, color = Color.Black)
+                Text(text = book.title, fontSize = 18.sp, color = Color.Black, fontWeight = FontWeight.Bold) // فونت Bold
                 Text(text = book.author, fontSize = 14.sp, color = Color.Gray)
-                Text(text = book.price, fontSize = 16.sp, color = Color.Blue)
+                Text(text = book.price, fontSize = 16.sp, color = Color.Blue, fontWeight = FontWeight.Medium) // فونت Medium
             }
-            Button(onClick = { /* Add to cart logic */ }) {
-                Text("Add to Cart")
-            }
+//            Button(onClick = { navController.navigate("cart") }) {
+//                Text("Add to Cart")
+//            }
         }
     }
 }
